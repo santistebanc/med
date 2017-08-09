@@ -1,0 +1,13 @@
+@import 'constants';
+
+.root {
+    display: flex;
+    width: 100%;
+}
+
+button {
+    background: $blue;
+    font-size: 1em;
+    font-weight: 300;
+    // border: solid 2px #eee;
+}

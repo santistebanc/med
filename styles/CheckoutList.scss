@@ -1,0 +1,11 @@
+.checkoutPanel {
+    background-color: white;
+    border: solid 2px #e6e6e6;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.checkoutList {
+    display: flex;
+    flex-direction: column;
+}
