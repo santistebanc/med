@@ -3,7 +3,7 @@ import withPage from '../providers/page'
 import Account from 'staart/lib/components/account'
 
 export default withPage(() => (
-    <Layout title="Cuenta de Usuario" page="account">
+    <Layout title="Cuenta de Usuario" page="account" hideSide>
     	<div className="container">
             <Account/>
         </div>

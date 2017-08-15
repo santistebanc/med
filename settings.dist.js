@@ -2,9 +2,9 @@ module.exports = {
     url: 'http://localhost',
     port: 3000,
     originUrl: 'http://localhost:3000',
-    mongoUrl: 'mongodb://root:1234@ds133378.mlab.com:33378/mexicoendron',
+    mongoUrl: 'xxx',
     sharedSecret: 'XXX',
-    sessionSecret: 'XXX',
+    sessionSecret: 'xxx',
     oothPath: '/auth',
     mailgun: {
         apiKey: "XXX",
@@ -12,5 +12,7 @@ module.exports = {
     },
     mail: {
         from: "info@mexicoendron.com"
-    }
+    },
+    accessKeyId: "xxx",
+    secretAccessKey: "xxx"
 }

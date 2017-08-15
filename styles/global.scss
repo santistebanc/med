@@ -2,6 +2,7 @@
 //estos son estilos globales
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+@import './react-tabs.scss';
 body {
     font-family: "Roboto";
     margin: 0;
@@ -10,6 +11,10 @@ body {
 
 *:focus {
     outline-width: 0;
+}
+
+.container {
+    width: 100%;
 }
 
 button,
@@ -22,9 +27,40 @@ input[type="submit"] {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="email"] {
     padding: 4px 8px;
     width: 150px;
+}
+
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+}
+
+table td {
+    word-wrap: break-word;
+}
+
+th,
+td {
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+}
+
+tr:hover {
+    background-color: #ddd
+}
+
+.griddle-settings {
+    padding: 8px;
+    border: 1px solid #aaa;
+    margin-bottom: 8px;
+}
+
+.griddle-settings-toggle {
+    margin-bottom: 8px;
 }
 
 @import 'input_range.scss';

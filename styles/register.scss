@@ -1,0 +1,35 @@
+@import 'constants';
+.root {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+}
+
+input {
+    margin-left: 8px;
+    width: 200px !important;
+}
+
+button {
+    background-color: $blue;
+    margin-left: auto;
+}
+
+.error-message {
+    color: $red;
+    max-width: 400px;
+}

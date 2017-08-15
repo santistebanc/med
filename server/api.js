@@ -1,14 +1,19 @@
-const {MongoClient, ObjectId} = require('mongodb')
+const { MongoClient, ObjectId } = require('mongodb')
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
-const {graphqlExpress, graphiqlExpress} = require('graphql-server-express')
-const {makeExecutableSchema} = require('graphql-tools')
+const { graphqlExpress, graphiqlExpress } = require('graphql-server-express')
+const { makeExecutableSchema } = require('graphql-tools')
 const morgan = require('morgan')
 const cors = require('cors')
 const nodeify = require('nodeify')
 const ooth = require('./ooth')
+const fetchVideos = require('../aws/fetchVideos.js')
+const processVideos = require('../aws/processVideos.js')
+const S3config = require('../aws/s3config.js');
+const AWS = require('aws-sdk');
+
 
 const prepare = (o) => {
     if (o && o._id) {
@@ -18,27 +23,64 @@ const prepare = (o) => {
 }
 
 function nodeifyAsync(asyncFunction) {
-    return function(...args) {
-        return nodeify(asyncFunction(...args.slice(0, -1)), args[args.length-1])
+    return function (...args) {
+        return nodeify(asyncFunction(...args.slice(0, -1)), args[args.length - 1])
     }
 }
 
 const start = async (app, settings) => {
     try {
+
+        let aws_aki = process.env.AWS_ACCESS_KEY_ID || settings.accessKeyId
+        let aws_sak = process.env.AWS_SECRET_ACCESS_KEY || settings.secretAccessKey
+        AWS.config.update({
+            accessKeyId: aws_aki,
+            secretAccessKey: aws_sak,
+            region: 'us-west-1'
+        })
+
+
         const db = await MongoClient.connect(settings.mongoUrl)
 
+        const Users = db.collection('users')
+        const Videos = db.collection('videos')
         const Posts = db.collection('posts')
         const Comments = db.collection('comments')
 
         const typeDefs = [`
             type Query {
                 me: User
+                users: [User]
                 post(_id: ID!): Post
                 posts: [Post]
                 comment(_id: ID!): Comment
+                s3videos: [s3Video]
+                videos: [Video]
+            }
+            type s3Video {
+                thumbpath: String
+                fullpath:String
+                posterpath:String
+                tags: [String]
+            }
+            type Video {
+                _id: ID!
+                title: String
+                thumbpath: String
+                fullpath:String
+                posterpath:String
+                tags: [String]
+                dateCreated: String
+                createdById: String
             }
             type User {
                 _id: ID!
+                local: UserLocalData
+            }
+            type UserLocalData {
+                email: String
+                password: String
+                verificationToken: String 
             }
             type Post {
                 _id: ID!
@@ -58,7 +100,18 @@ const start = async (app, settings) => {
                 author: User
                 post: Post
             }
+            input VideoInput {
+                title: String
+                thumbpath: String
+                fullpath:String
+                posterpath:String
+                tags: [String]
+                dateCreated: String
+                createdById: String
+            }
             type Mutation {
+                createVideo(video: VideoInput): Video
+                deleteVideo(_id: ID!): Video
                 createPost(title: String, content: String): Post
                 createComment(postId: ID!, content: String): Comment
             }
@@ -70,7 +123,7 @@ const start = async (app, settings) => {
 
         const resolvers = {
             Query: {
-                me: async (root, args, {userId}) => {
+                me: async (root, args, { userId }) => {
                     if (!userId) {
                         return null
                     }
@@ -78,28 +131,62 @@ const start = async (app, settings) => {
                         _id: userId
                     }
                 },
-                post: async (root, {_id}) => {
+                post: async (root, { _id }) => {
                     return prepare(await Posts.findOne(ObjectId(_id)))
                 },
                 posts: async (root, args, context) => {
                     return (await Posts.find({}).toArray()).map(prepare)
                 },
-                comment: async (root, {_id}) => {
+                comment: async (root, { _id }) => {
                     return prepare(await Comments.findOne(ObjectId(_id)))
+                },
+                users: async (root, args, context) => {
+                    return (await Users.find({}).toArray()).map(prepare)
+                },
+                videos: async (root, args, context) => {
+                    return (await Videos.find({}).toArray()).map(prepare)
+                },
+                s3videos: async (root, args, context) => {
+                    const rawvideos = await fetchVideos()
+                    return await processVideos(rawvideos)
                 },
             },
             Post: {
-                comments: async ({_id}) => {
-                    return (await Comments.find({postId: _id}).toArray()).map(prepare)
+                comments: async ({ _id }) => {
+                    return (await Comments.find({ postId: _id }).toArray()).map(prepare)
                 }
             },
             Comment: {
-                post: async ({postId}) => {
+                post: async ({ postId }) => {
                     return prepare(await Posts.findOne(ObjectId(postId)))
                 }
             },
             Mutation: {
-                createPost: async (root, args, {userId}, info) => {
+                createVideo: async (root, { video }, { userId }) => {
+                    if (!userId) {
+                        throw new Error('User not logged in.')
+                    }
+                    const exists = await Videos.findOne({ thumbpath: video.thumbpath })
+                    if (exists) {
+                        throw new Error('Video already exists')
+                    }
+                    video.createdById = userId
+                    video.dateCreated = Date.now().toString()
+                    const _id = (await Videos.insertOne(video)).insertedId
+                    return prepare(await Videos.findOne(ObjectId(_id)))
+                },
+                deleteVideo: async (root, { _id }, { userId }) => {
+                    if (!userId) {
+                        throw new Error('User not logged in.')
+                    }
+                    const exists = await Videos.findOne(ObjectId(_id))
+                    if (!exists) {
+                        throw new Error('Video to remove does not exist')
+                    }
+                    const deleted = (await Videos.deleteOne({ _id: ObjectId(_id) }))
+                    return prepare(exists)
+                },
+                createPost: async (root, args, { userId }, info) => {
                     if (!userId) {
                         throw new Error('User not logged in.')
                     }
@@ -107,7 +194,7 @@ const start = async (app, settings) => {
                     const _id = (await Posts.insertOne(args)).insertedId
                     return prepare(await Posts.findOne(ObjectId(_id)))
                 },
-                createComment: async (root, args, {userId}) => {
+                createComment: async (root, args, { userId }) => {
                     if (!userId) {
                         throw new Error('User not logged in.')
                     }

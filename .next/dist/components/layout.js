@@ -12,9 +12,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _head = require('next\\dist\\lib\\head.js');
+var _head = require('../hocs/head');
 
 var _head2 = _interopRequireDefault(_head);
+
+var _filters = require('./filters.js');
+
+var _filters2 = _interopRequireDefault(_filters);
 
 var _menubar = require('./menubar.js');
 
@@ -31,58 +35,67 @@ var _layout2 = _interopRequireDefault(_layout);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _jsxFileName = 'C:\\projects\\med\\components\\layout.js';
-// import Filters from './filters.js'
-
-
-var menubarheight = 83;
-var sidewidth = 200;
-
-exports.default = function (props) {
+exports.default = (0, _head2.default)(function (_ref) {
+    var title = _ref.title,
+        Head = _ref.Head,
+        hideSide = _ref.hideSide,
+        children = _ref.children;
     return _react2.default.createElement('div', { className: 'root', 'data-jsx-ext': _layout2.default.__scopedHash,
         __source: {
             fileName: _jsxFileName,
-            lineNumber: 12
+            lineNumber: 9
         }
-    }, _react2.default.createElement(_head2.default, {
+    }, _react2.default.createElement(Head, {
         __source: {
             fileName: _jsxFileName,
-            lineNumber: 14
+            lineNumber: 10
         }
     }, _react2.default.createElement('title', {
         'data-jsx-ext': _layout2.default.__scopedHash,
         __source: {
             fileName: _jsxFileName,
-            lineNumber: 15
+            lineNumber: 11
         }
-    }, props.title), _react2.default.createElement('meta', { name: 'viewport', content: 'width=device-width,initial-scale=1', 'data-jsx-ext': _layout2.default.__scopedHash,
+    }, title), _react2.default.createElement('meta', { name: 'viewport', content: 'width=device-width,initial-scale=1', 'data-jsx-ext': _layout2.default.__scopedHash,
         __source: {
             fileName: _jsxFileName,
-            lineNumber: 16
+            lineNumber: 12
         }
     }), _react2.default.createElement('link', { rel: 'shortcut icon', href: '/static/favicon.ico', type: 'image/x-icon', 'data-jsx-ext': _layout2.default.__scopedHash,
         __source: {
             fileName: _jsxFileName,
-            lineNumber: 17
+            lineNumber: 13
         }
     })), _react2.default.createElement('div', { className: 'menu', 'data-jsx-ext': _layout2.default.__scopedHash,
         __source: {
             fileName: _jsxFileName,
-            lineNumber: 20
+            lineNumber: 15
         }
-    }, _react2.default.createElement(_menubar2.default, { user: props.user, __source: {
+    }, _react2.default.createElement(_menubar2.default, {
+        __source: {
+            fileName: _jsxFileName,
+            lineNumber: 16
+        }
+    })), !hideSide && _react2.default.createElement('div', { className: 'side', 'data-jsx-ext': _layout2.default.__scopedHash,
+        __source: {
+            fileName: _jsxFileName,
+            lineNumber: 18
+        }
+    }, _react2.default.createElement(_filters2.default, {
+        __source: {
+            fileName: _jsxFileName,
+            lineNumber: 19
+        }
+    })), _react2.default.createElement('div', { className: "content" + (hideSide ? " withoutside" : ""), 'data-jsx-ext': _layout2.default.__scopedHash,
+        __source: {
             fileName: _jsxFileName,
             lineNumber: 21
         }
-    })), _react2.default.createElement('div', { className: "content" + (props.hideSide ? " withoutside" : ""), 'data-jsx-ext': _layout2.default.__scopedHash,
-        __source: {
-            fileName: _jsxFileName,
-            lineNumber: 28
-        }
-    }, props.children), _react2.default.createElement(_style2.default, {
+    }, children), _react2.default.createElement(_style2.default, {
         styleId: _global2.default.__hash,
         css: _global2.default
     }), _react2.default.createElement(_style2.default, {
         styleId: _layout2.default.__scopedHash,
         css: _layout2.default.__scoped
     }));
-};
+});

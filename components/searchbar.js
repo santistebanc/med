@@ -1,31 +1,22 @@
-import React, { Component } from 'react'
-import styles from '../styles/SearchBar.scss'
+import React from 'react'
+import { withState } from 'recompose'
+import styles from '../styles/searchbar.scss'
 
-export default class extends Component {
+export default withState('value', 'changeValue', '')(
+  ({ value, changeValue, onRequestSearch, onChange }) => (
+  <div className={"root"}>
 
-  state = { value: '' }
+    <form onSubmit={e => {
+      e.preventDefault()
+      onRequestSearch(value)
+    }}>
+      <input type="text" placeholder="Buscar" value={value} onChange={e => {
+        changeValue(this.value)
+        onChange(this.value)
+      }} />
+    </form>
+    <button><i className='fa fa-search' /></button>
 
-  handleInput = (e) => {
-    this.setState({ value: e.target.value })
-    this.props.onChange(e.target.value)
-  }
-  handleSearch = (e) => {
-    e.preventDefault()
-    this.props.onRequestSearch(this.props.value || this.state.value);
-  }
-
-  render() {
-    const value = this.props.value || this.state.value
-    return (
-      <div className={"root"}>
-
-        <form onSubmit={this.handleSearch}>
-          <input type="text" placeholder="Buscar" value={value} onChange={this.handleInput} />
-        </form>
-        <button><i className='fa fa-search' /></button>
-
-         <style jsx>{styles}</style> 
-      </div>
-    )
-  }
-}
+    <style jsx>{styles}</style>
+  </div >
+))

@@ -3,7 +3,7 @@ import withPage from '../providers/page'
 import Register from '../components/register'
 
 export default withPage(({url: {query: {next}}}) => {
-    return <Layout title="Registrar Usuario" page="register">
+    return <Layout title="Registrar Usuario" page="register" hideSide>
         <Register next={next}/>
     </Layout>
 })
