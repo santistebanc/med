@@ -46,9 +46,7 @@ export default compose(
       this.props.fetchVideos();
     }
     componentWillReceiveProps(nextProps) {
-      console.log("new videos ", nextProps.videos)
       if (nextProps.s3videos && !nextProps.s3videos.loading && nextProps.videos && !nextProps.videos.loading) {
-        console.log("new videos inside")
         const union = [...nextProps.videos.list];
         nextProps.s3videos.list.forEach(v => {
           const idx = union.findIndex(u => u.thumbpath == v.thumbpath)

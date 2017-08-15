@@ -7,7 +7,6 @@ export default (videos) => {
     vid.tags && vid.tags.forEach(tag => {
       const stem = natural.PorterStemmerEs.stem(tag);
       const idx = tags.findIndex(t => t.title == tag);
-      console.log("idx = ", idx, tags, tag)
       const sidx = stems.findIndex(t => t.title == tag);
       if (idx == -1) {
         tags.push({ title: tag, videos: vid.key })
