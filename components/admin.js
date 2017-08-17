@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import withData from '../hocs/data'
+import withLoginRequired from '../hocs/login-required'
 import styles from '../styles/admin.scss'
 import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
 import { getUsers, getS3Videos, getVideos, createVideo, deleteVideo } from '../redux/actions'
@@ -29,6 +30,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default compose(
+  withLoginRequired('/admin'),
   withUser,
   withData(mapStateToProps, mapDispatchToProps),
 )
@@ -65,30 +67,47 @@ export default compose(
           {!this.props.user ? <p>Tienes que tener privilegios de administrador para accesar esta página</p> :
             <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
               <TabList>
-                <Tab>Users</Tab>
+                <Tab>Usuarios</Tab>
                 <Tab>Videos</Tab>
               </TabList>
 
               <TabPanel>
-                <h3>Users</h3>
-                {this.props.users.loading ? <div>Loading...</div> :
-                  <div>
-                    <button onClick={() => { this.props.fetchUsers() }}>Update</button>
-                    <Griddle data={this.props.users.list.map(u => u.local)} plugins={[plugins.LocalPlugin]} >
-                      <RowDefinition>
-                        <ColumnDefinition
-                          id="email"
-                          title="Correo Electrónico"
-                        />
-                      </RowDefinition>
-                    </Griddle>
-                  </div>}
+                <h3>Usuarios</h3>
+                <div>
+                  <button onClick={() => { this.props.fetchUsers() }}>Actualizar</button>
+                  {this.props.users.loading && <span style={{ paddingLeft: 4 }}>Cargando...</span>}
+                  <Griddle data={this.props.users.list.map(u => {
+                    const us = { ...u.local }
+                    us.roles = u.roles;
+                    return us
+                  })} plugins={[plugins.LocalPlugin]} >
+                    <RowDefinition>
+                      <ColumnDefinition
+                        id="email"
+                        title="Correo Electrónico"
+                      />
+                      <ColumnDefinition
+                        id="username"
+                        title="Nombre de Usuario"
+                      />
+                      <ColumnDefinition
+                        id="roles"
+                        title="Roles"
+                      />
+                      <ColumnDefinition
+                        id="verified"
+                        title="Cuenta Verificada"
+                        customComponent={({ value }) => <span>{value ? "sí" : "no"}</span>}
+                      />
+                    </RowDefinition>
+                  </Griddle>
+                </div>
               </TabPanel>
               <TabPanel>
                 <h3>Videos</h3>
-                {this.state.videos.loading && <div>Loading...</div>}
                 <div>
-                  <button onClick={() => { this.refreshVideos() }}>Update</button>
+                  <button onClick={() => { this.refreshVideos() }}>Actualizar</button>
+                  {(this.props.videos.loading ||  this.props.s3videos.loading) && <span style={{ paddingLeft: 4 }}>Cargando...</span>}
                   <Griddle data={this.state.videos} plugins={[plugins.LocalPlugin]} >
                     <RowDefinition>
                       <ColumnDefinition
@@ -106,14 +125,14 @@ export default compose(
                       />
                       <ColumnDefinition
                         id="title"
-                        title="Title"
+                        title="Título"
                       />
                       <ColumnDefinition
                         id="dateCreated"
-                        title="DateSavedToDB"
+                        title="Fecha en BD"
                         customComponent={({ griddleKey, value }) => {
                           return <div>
-                            {moment(new Date(parseInt(value))).format("DD-MMM-YYYY, hh:mm:ss")}
+                            {value && moment(new Date(parseInt(value))).format("D-MMM-YYYY, H:mm:ss")}
                           </div>
                         }}
                       />
@@ -123,16 +142,16 @@ export default compose(
                       />
                       <ColumnDefinition
                         id="actions"
-                        title="Actions"
+                        title="Acciones"
                         customComponent={({ griddleKey }) => {
                           return <div>
                             {this.state.videos[griddleKey].notinDB && <button onClick={() => {
                               delete this.state.videos[griddleKey].notinDB;
                               this.props.addVideo(this.state.videos[griddleKey], griddleKey)
-                            }}>Add to DB</button>}
+                            }}>Agregar a BD</button>}
                             {!this.state.videos[griddleKey].notinDB && <button onClick={() => {
                               this.props.removeVideo(this.state.videos[griddleKey]._id)
-                            }}>Delete</button>}
+                            }}>Borrar</button>}
                           </div>
                         }}
                       />

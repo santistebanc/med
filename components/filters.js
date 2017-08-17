@@ -2,7 +2,7 @@ import React from 'react'
 import DurationSlider from './duration-slider.js'
 import PriceSlider from './price-slider.js'
 import withData from '../hocs/data'
-import styles from '../styles/Filters.scss'
+import styles from '../styles/filters.scss'
 
 const mapStateToProps = ({ filters: { durationFilter, priceFilter } }) => ({ durationFilter, priceFilter })
 

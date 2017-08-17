@@ -36,7 +36,7 @@ export default withOoth(
             <div className="form-group">
               <label htmlFor="username">Usuario o Correo Electrónico</label>
               <input
-                type="username"
+                type="text"
                 className="form-control"
                 id="username"
                 ref={username => {

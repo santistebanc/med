@@ -12,12 +12,12 @@ export default compose(
   state = { error: null }
   componentDidMount() {
     if (this.props.user) {
-      this.props.Router.push(this.props.next || '/dashboard')
+      this.props.Router.push(this.props.next || '/gallery')
     }
   }
   componentDidUpdate() {
     if (this.props.user) {
-      this.props.Router.push(this.props.next || '/dashboard')
+      this.props.Router.push(this.props.next || '/gallery')
     }
   }
   render() {
@@ -26,7 +26,7 @@ export default compose(
         <h1>Inicio de sesión</h1>
         {this.props.user ? <div>
           <p>Ya tienes una sesión de usuario iniciada.</p>
-          <p>Haz click <a href={this.props.next || '/dashboard'}>aquí</a> si la página no se redirecciona automáticamente.</p>
+          <p>Haz click <a href={this.props.next || '/gallery'}>aquí</a> si la página no se redirecciona automáticamente.</p>
         </div> :
           <form onSubmit={e => {
             e.preventDefault()

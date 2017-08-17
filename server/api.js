@@ -56,6 +56,7 @@ const start = async (app, settings) => {
                 comment(_id: ID!): Comment
                 s3videos: [s3Video]
                 videos: [Video]
+                video(_id: ID!): Video
             }
             type s3Video {
                 thumbpath: String
@@ -76,11 +77,15 @@ const start = async (app, settings) => {
             type User {
                 _id: ID!
                 local: UserLocalData
+                roles: [String]
             }
             type UserLocalData {
                 email: String
                 password: String
                 verificationToken: String 
+                username: String
+                passwordResetToken: String
+                verified: Boolean
             }
             type Post {
                 _id: ID!
@@ -142,6 +147,9 @@ const start = async (app, settings) => {
                 },
                 users: async (root, args, context) => {
                     return (await Users.find({}).toArray()).map(prepare)
+                },
+                video: async (root, { _id }) => {
+                    return prepare(await Videos.findOne(ObjectId(_id)))
                 },
                 videos: async (root, args, context) => {
                     return (await Videos.find({}).toArray()).map(prepare)

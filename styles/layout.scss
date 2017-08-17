@@ -1,6 +1,6 @@
 $sidewidth: 200px;
 $menubarheight: 83px;
-
+$navheight: 40px;
 .root {
     display: flex;
     width: 100%;
@@ -29,8 +29,23 @@ $menubarheight: 83px;
     box-sizing: border-box;
 }
 
-.content {
+.nav {
+    height: $navheight;
     margin-top: $menubarheight;
+    margin-left: $sidewidth;
+    width: unquote("calc( 100% - #{$sidewidth} )");
+    position: fixed;
+    top: 0;
+    z-index: 100;
+}
+
+.nav.withoutside {
+    margin-left: 0;
+    width: 100%
+}
+
+.content {
+    margin-top: $menubarheight+$navheight;
     margin-left: $sidewidth;
     width: 100%;
 }
@@ -51,6 +66,13 @@ $menubarheight: 83px;
         width: 100%;
         margin-top: 0;
         position: inherit;
+    }
+    .nav {
+        position: inherit;
+        width: 100%;
+        margin-top: 0;
+        margin-left: 0;
+        height: auto;
     }
     .content {
         width: 100%;

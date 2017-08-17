@@ -1,13 +1,42 @@
 @import 'constants';
-
 .root {
     display: flex;
-    width: 100%;
+    width: 100%; // flex-direction: row-reverse;
 }
 
 button {
-    background: $blue;
     font-size: 1em;
     font-weight: 300;
-    // border: solid 2px #eee;
+}
+
+// #home {
+//     flex: 1;
+//     background-color: $red;
+//      :hover {
+//         background-color: lighten($red, 10%);
+//     }
+// }
+
+#gallery {
+    flex: 1;
+    background-color: $blue;
+     :hover {
+        background-color: lighten($blue, 10%);
+    }
+}
+
+#myvideos {
+    flex: 1;
+    background-color: $pink;
+     :hover {
+        background-color: lighten($pink, 10%);
+    }
+}
+
+#account {
+    flex: 1;
+    background-color: $green;
+     :hover {
+        background-color: lighten($green, 10%);
+    }
 }

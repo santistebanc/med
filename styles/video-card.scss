@@ -1,3 +1,4 @@
+@import 'constants';
 .root {
     background-color: white;
     border: solid 2px #e6e6e6;
@@ -40,12 +41,12 @@ button:hover {
 
 #download {
     color: #fff;
-    background-color: #f8a400;
+    background-color: $yellow;
 }
 
 #add {
     color: #fff;
-    background-color: #87c436;
+    background-color: $pink;
 }
 
 h2 {
@@ -56,6 +57,12 @@ h2 {
 
 .actions {
     padding-top: 16px;
+}
+
+.error-message {
+    color: $red;
+    max-width: 400px;
+    padding: 4px;
 }
 
 @media (max-width: 1000px) {
