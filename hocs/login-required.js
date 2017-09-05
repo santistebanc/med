@@ -8,15 +8,15 @@ export default url => {
         class extends Component {
             componentDidMount() {
                 if (!this.props.user) {
-                    this.props.Router.push(`/login?next=${encodeURIComponent(url)}`)
+                    this.props.Router.replace(`/login?next=${encodeURIComponent(url)}`)
                 }
             }
             render() {
                 if (this.props.user) {
-                    return <C/>
+                    return <C {...this.props}/>
                 } else {
                     return <div className="container">
-                        <p>You need to log in to see this page.</p>
+                        <p>Tienes que iniciar sesión para ver esta página.</p>
                     </div>
                 }
             }

@@ -26,6 +26,12 @@ input[type="submit"] {
     background-color: gray;
 }
 
+select {
+    border: 2px solid #ddd;
+    box-sizing: border-box;
+    padding: 6px;
+}
+
 input[type="text"],
 input[type="password"],
 input[type="email"] {
@@ -35,7 +41,7 @@ input[type="email"] {
 
 table {
     border-collapse: collapse;
-    table-layout: fixed;
+    table-layout: auto;
     width: 100%;
 }
 
@@ -47,10 +53,15 @@ th,
 td {
     border-bottom: 1px solid #ccc;
     text-align: left;
+    min-width: 100%;
+}
+
+td:last-child {
+    width: 100%;
 }
 
 tr:hover {
-    background-color: #ddd
+    background-color: #ddd;
 }
 
 .griddle-settings {
@@ -61,6 +72,30 @@ tr:hover {
 
 .griddle-settings-toggle {
     margin-bottom: 8px;
+}
+
+.bg.red {
+    background-color: $red;
+}
+
+.bg.blue {
+    background-color: $blue;
+}
+
+.bg.green {
+    background-color: $green;
+}
+
+.bg.yellow {
+    background-color: $yellow;
+}
+
+.bg.pink {
+    background-color: $pink;
+}
+
+.bg.purple {
+    background-color: $purple;
 }
 
 @import 'input_range.scss';

@@ -61,7 +61,7 @@ export default compose(
                     />
                 </div>
                 <div className="form-group">
-                    <button type="submit" className="btn btn-primary btn-block">Crear Nombre de Usuario</button>
+                    <button type="submit" className="btn btn-primary btn-block">Guardar Nombre de Usuario</button>
                 </div>
             </form>
             <style jsx>{styles}</style>

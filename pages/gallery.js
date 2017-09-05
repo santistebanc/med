@@ -4,7 +4,7 @@ import VideosGrid from '../components/videos-grid'
 import VideoCard from '../components/video-card'
 
 export default withPage(({ url }) => (
-  <Layout title="Gallery" url={url}>
+  <Layout title="Galería de Videos" url={url}>
     <div className="container">
       <VideoCard url={url} />
       <VideosGrid/>

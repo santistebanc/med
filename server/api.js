@@ -67,6 +67,7 @@ const start = async (app, settings) => {
             type Video {
                 _id: ID!
                 title: String
+                duration: Float
                 thumbpath: String
                 fullpath:String
                 posterpath:String
@@ -107,6 +108,7 @@ const start = async (app, settings) => {
             }
             input VideoInput {
                 title: String
+                duration: Float
                 thumbpath: String
                 fullpath:String
                 posterpath:String
@@ -116,6 +118,7 @@ const start = async (app, settings) => {
             }
             type Mutation {
                 createVideo(video: VideoInput): Video
+                updateVideo(_id: ID!, video: VideoInput): Video
                 deleteVideo(_id: ID!): Video
                 createPost(title: String, content: String): Post
                 createComment(postId: ID!, content: String): Comment
@@ -191,8 +194,28 @@ const start = async (app, settings) => {
                     if (!exists) {
                         throw new Error('Video to remove does not exist')
                     }
-                    const deleted = (await Videos.deleteOne({ _id: ObjectId(_id) }))
-                    return prepare(exists)
+                    const deleted = await Videos.deleteOne({ _id: ObjectId(_id) })
+                    if (deleted.deletedCount == 1) {
+                        return prepare(exists)
+                    } else {
+                        throw new Error('Video could not be removed')
+                    }
+                },
+                updateVideo: async (root, { _id, video }, { userId }) => {
+                    if (!userId) {
+                        throw new Error('User not logged in.')
+                    }
+                    const exists = await Videos.findOne(ObjectId(_id))
+                    if (!exists) {
+                        throw new Error('Video to update does not exist')
+                    }
+                    const replaced = (await Videos.replaceOne({ _id: ObjectId(_id) }, video ))
+                    if (replaced.modifiedCount == 1) {
+                        video._id = _id;
+                        return prepare(video)
+                    } else {
+                        throw new Error('Video could not be updated')
+                    }
                 },
                 createPost: async (root, args, { userId }, info) => {
                     if (!userId) {

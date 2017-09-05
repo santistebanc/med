@@ -17,7 +17,7 @@ export default compose(
     }
     componentDidUpdate() {
       if (!this.props.user) {
-        this.props.Router.push(this.props.next)
+        this.props.Router.replace(this.props.next)
       }
     }
     render() {

@@ -40,6 +40,15 @@ export default (state = initial, action) => {
       return { ...state, loading: false, list: newlist }
     case 'ERROR_DELETE_VIDEO':
       return { ...state, loading: false }
+    case 'FETCHING_UPDATE_VIDEO':
+      return { ...state, loading: true }
+    case 'READY_UPDATE_VIDEO':
+      newlist = [...state.list]
+      idx = newlist.findIndex(v => v._id == action.payload._id)
+      if (idx > -1) newlist[idx] = action.payload
+      return { ...state, loading: false, list: newlist }
+    case 'ERROR_UPDATE_VIDEO':
+      return { ...state, loading: false }
     default:
       return state
   }

@@ -31,16 +31,18 @@ export default withData(mapStateToProps, mapDispatchToProps)
       }
     }
     setVideoState(props) {
-      if (props.videos && !props.videos.loading) {
-        console.log(props.videos.list);
-        const findvid = props.videos.list.find(v => v._id == props.url.query.id);
-        if (findvid) {
-          this.setState({ video: findvid, error: null })
+      if (props.url && props.url.query.id) {
+        if (props.videos && !props.videos.loading) {
+          console.log(props.videos.list);
+          const findvid = props.videos.list.find(v => v._id == props.url.query.id);
+          if (findvid) {
+            this.setState({ video: findvid, error: null })
+          } else {
+            this.fetchOrError()
+          }
         } else {
           this.fetchOrError()
         }
-      } else {
-        this.fetchOrError()
       }
     }
     componentWillReceiveProps(nextProps) {
@@ -49,34 +51,34 @@ export default withData(mapStateToProps, mapDispatchToProps)
     render() {
       return (
         <div className={"root"}>
-          
-          {this.props.url.query.id && 
 
-          <div className="tile">
+          {this.props.url && this.props.url.query.id &&
 
-            <p className="error-message">{this.state.error}</p>
-            {this.state.fetchedVideo && this.props.videos.loading && !this.state.error && <span style={{ paddingLeft: 4 }}>Cargando...</span>}
+            <div className="tile">
 
-            <div className="video">
-              {this.state.video && !this.state.error && <VideoFull src={this.state.video.fullpath} />}
-            </div>
+              <p className="error-message">{this.state.error}</p>
+              {this.state.fetchedVideo && this.props.videos.loading && !this.state.error && <span style={{ paddingLeft: 4 }}>Cargando...</span>}
 
-            {this.state.video && !this.state.error && <div className="info">
-              <h2>{this.state.video.title}</h2>
-              <div className="details">
-                <TagsBar tags={this.state.video.tags} />
+              <div className="video">
+                {this.state.video && !this.state.error && <VideoFull src={this.state.video.fullpath} />}
               </div>
-              <div className="actions">
-                <button id="download" onClick={() => { console.log("requested download") }}>
-                  <i className='icon fa fa-download' />Descargar
+
+              {this.state.video && !this.state.error && <div className="info">
+                <h2>{this.state.video.title}</h2>
+                <div className="details">
+                  <TagsBar tags={this.state.video.tags} />
+                </div>
+                <div className="actions">
+                  <button id="download" onClick={() => { console.log("requested download") }}>
+                    <i className='icon fa fa-download' />Descargar
               </button>
-                <button id="add">
-                  <i className='icon fa fa-plus-square-o' />Añadir
+                  <button id="add">
+                    <i className='icon fa fa-plus-square-o' />Añadir
               </button>
-              </div>
+                </div>
+              </div>}
+
             </div>}
-
-          </div>}
 
           <style jsx>{styles}</style>
         </div>

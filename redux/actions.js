@@ -23,7 +23,7 @@ export const getS3Videos = () => {
 export const getVideos = () => {
   return async dispatch => {
     dispatch({ type: 'FETCHING_VIDEOS' });
-    const query = `{videos{_id, title, thumbpath, fullpath, posterpath, tags, createdById, dateCreated}}`
+    const query = `{videos{_id, title, duration, thumbpath, fullpath, posterpath, tags, createdById, dateCreated}}`
     const response = await request('/graphql', query)
     dispatch({ type: 'READY_VIDEOS', payload: response.videos })
     return response;
@@ -38,7 +38,7 @@ export const getVideo = (_id) => {
       mode: 'cors'
     })
     const query = `query getVideo($_id: ID!) {
-    video(_id: $_id) {_id, title, thumbpath, fullpath, posterpath, tags, createdById, dateCreated}
+    video(_id: $_id) {_id, title, duration, thumbpath, fullpath, posterpath, tags, createdById, dateCreated}
   }`
     try {
       const response = await client.request(query, { _id })
@@ -62,6 +62,7 @@ export const createVideo = (video, pos) => {
     createVideo(video: $video) {
       _id
       title
+      duration
       thumbpath
       fullpath
       posterpath
@@ -99,6 +100,37 @@ export const deleteVideo = (_id) => {
       return response;
     } catch (error) {
       dispatch({ type: 'ERROR_DELETE_VIDEO', payload: error })
+      return error;
+    };
+  }
+}
+
+export const updateVideo = (_id, video, pos) => {
+  return async dispatch => {
+    dispatch({ type: 'FETCHING_UPDATE_VIDEO' });
+    const client = new GraphQLClient('/graphql', {
+      credentials: 'include',
+      mode: 'cors'
+    })
+    const query = `mutation editVideo($_id: ID!, $video:VideoInput) {
+    updateVideo(_id: $_id, video: $video) {
+      _id
+      title
+      duration
+      thumbpath
+      fullpath
+      posterpath
+      tags
+      createdById
+      dateCreated
+    }
+  }`
+    try {
+      const response = await client.request(query, { _id, video })
+      dispatch({ type: 'READY_UPDATE_VIDEO', payload: response.updateVideo })
+      return response;
+    } catch (error) {
+      dispatch({ type: 'ERROR_UPDATE_VIDEO', payload: error })
       return error;
     };
   }

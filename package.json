@@ -1,5 +1,5 @@
 {
-  "name": "staart-example",
+  "name": "mexicoendron.com",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
@@ -20,7 +20,7 @@
     "docker:logs": "docker logs -f staart",
     "deploy": "npm run docker:build && npm run docker:clean && npm run docker:run"
   },
-  "author": "Nicola Marcacci Rossi <nicolamr@gmail.com> (http://nmr.io)",
+  "author": "Carlos Santisteban",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.98.0",
@@ -39,7 +39,7 @@
     "mailgun-js": "^0.11.2",
     "moment": "^2.18.1",
     "mongodb": "^2.2.30",
-    "next": "^2.4.7",
+    "next": "^2.4.9",
     "next-redux-wrapper": "^1.3.2",
     "ooth": "^0.8.4",
     "ooth-client": "^0.8.0",

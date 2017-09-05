@@ -12,12 +12,12 @@ export default compose(
   state = { error: null }
   componentDidMount() {
     if (this.props.user) {
-      this.props.Router.push(this.props.next || '/gallery')
+      this.props.Router.replace(this.props.next || '/gallery')
     }
   }
   componentDidUpdate() {
     if (this.props.user) {
-      this.props.Router.push(this.props.next || '/gallery')
+      this.props.Router.replace(this.props.next || '/gallery')
     }
   }
   render() {
