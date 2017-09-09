@@ -4,7 +4,7 @@
 
 Compra stock-videos de lugares en México grabados en dron.
 
-**Demo en https://med-uhhxezzwdf.now.sh (v0.1.2)**
+**Demo en https://mexicoendron.now.sh (v0.1.5)**
 
 
 ## Como usar
@@ -20,6 +20,8 @@ git clone https://github.com/santistebanc/med.git
 cd med
 npm install
 ```
+
+Copia el archivo `settings.dist.js` a `settings.js` y llena los campos.
 
 ### Run
 
