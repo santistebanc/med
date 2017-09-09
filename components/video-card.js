@@ -33,7 +33,6 @@ export default withData(mapStateToProps, mapDispatchToProps)
     setVideoState(props) {
       if (props.url && props.url.query.id) {
         if (props.videos && !props.videos.loading) {
-          console.log(props.videos.list);
           const findvid = props.videos.list.find(v => v._id == props.url.query.id);
           if (findvid) {
             this.setState({ video: findvid, error: null })

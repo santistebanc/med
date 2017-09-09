@@ -1,5 +1,4 @@
 @import 'constants';
-
 .root {
     height: 100%;
     width: 100%;
@@ -24,6 +23,7 @@ video {
     h4 {
         color: white;
         font-size: 2em;
+        font-family: inherit;
     }
 }
 

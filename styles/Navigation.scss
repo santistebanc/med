@@ -7,6 +7,7 @@
 button {
     font-size: 1em;
     font-weight: 300;
+    font-family: inherit;
 }
 
 // #home {
@@ -16,7 +17,6 @@ button {
 //         background-color: lighten($red, 10%);
 //     }
 // }
-
 #gallery {
     flex: 1;
     background-color: $blue;
@@ -38,5 +38,13 @@ button {
     background-color: $green;
      :hover {
         background-color: lighten($green, 10%);
+    }
+}
+
+#admin {
+    flex: 1;
+    background-color: $yellow;
+     :hover {
+        background-color: lighten($yellow, 10%);
     }
 }

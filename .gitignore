@@ -1,3 +1,5 @@
 settings.js
 node_modules
 .next
+public-settings.js
+yarn.lock

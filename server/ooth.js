@@ -15,6 +15,12 @@ module.exports = async function start(app, settings) {
 
     await ooth.start(app)
 
+    let host = "";
+    app.use((req, res, next) => {
+        host = req.get('host')
+        next()
+    })
+
     const sendMail = mail(settings.mailgun)
     ooth.use('local', oothLocal({
         onRegister({ email, verificationToken }) {
@@ -22,8 +28,8 @@ module.exports = async function start(app, settings) {
                 from: settings.mail.from,
                 to: email,
                 subject: 'Gracias por Registrarte en MexicoEnDron. Verifica tu correo electrónico',
-                body: `Porfavor verifica tu correo electrónico siguiendo la siguiente <a href="${settings.originUrl}/verify-email?token=${verificationToken}">liga</a>`,
-                html: `Porfavor verifica tu correo electrónico siguiendo la siguiente <a href="${settings.originUrl}/verify-email?token=${verificationToken}">liga</a>`,
+                body: `Porfavor verifica tu correo electrónico siguiendo la siguiente liga: ${host}/verify-email?token=${verificationToken}`,
+                html: `Porfavor verifica tu correo electrónico siguiendo la siguiente <a href="${host}/verify-email?token=${verificationToken}">liga</a>`,
             })
         },
         onGenerateVerificationToken({ email, verificationToken }) {
@@ -31,8 +37,8 @@ module.exports = async function start(app, settings) {
                 from: settings.mail.from,
                 to: email,
                 subject: 'Verifica tu correo electrónico',
-                body: `Porfavor verifica tu correo electrónico con la siguiente <a href="${settings.originUrl}/verify-email?token=${verificationToken}">liga</a>`,
-                html: `Porfavor verifica tu correo electrónico con la siguiente <a href="${settings.originUrl}/verify-email?token=${verificationToken}">liga</a>`,
+                body: `Porfavor verifica tu correo electrónico con la siguiente liga: ${host}/verify-email?token=${verificationToken}`,
+                html: `Porfavor verifica tu correo electrónico con la siguiente <a href="${host}/verify-email?token=${verificationToken}">liga</a>`,
             })
         },
         onVerify({ email }) {
@@ -49,8 +55,8 @@ module.exports = async function start(app, settings) {
                 from: settings.mail.from,
                 to: email,
                 subject: 'Recuperar Contraseña',
-                body: `Reestablece tu contraseña con la siguiente <a href="${settings.originUrl}/reset-password?token=${passwordResetToken}>liga</a>`,
-                html: `Reestablece tu contraseña con la siguiente <a href="${settings.originUrl}/reset-password?token=${passwordResetToken}>liga</a>`,
+                body: `Reestablece tu contraseña con la siguiente liga: ${host}/reset-password?token=${passwordResetToken}`,
+                html: `Reestablece tu contraseña con la siguiente <a href="${host}/reset-password?token=${passwordResetToken}>liga</a>`,
             })
         },
         onResetPassword({ email }) {

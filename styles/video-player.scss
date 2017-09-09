@@ -7,8 +7,7 @@
 }
 
 .root .afterelement {
-    content: '';
-    // position: absolute;
+    content: ''; // position: absolute;
     // top: 50%;
     // left: 50%;
     // transform: translate(-50%, -50%);
@@ -101,6 +100,7 @@
     color: white;
     font-weight: 100;
     font-size: 0.8em;
+    font-family: inherit;
     padding: 6px;
     margin-left: auto;
 }

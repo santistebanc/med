@@ -5,7 +5,7 @@ import Admin from '../components/admin'
 export default withPage(({ url }) => (
   <Layout title="Administrador" url={url} hideSide>
     <div className="container">
-      <Admin url={url} caca={"holaaaa"} />
+      <Admin url={url} />
     </div>
   </Layout>
 ))
