@@ -13,6 +13,7 @@ const fetchVideos = require('../aws/fetchVideos.js')
 const processVideos = require('../aws/processVideos.js')
 const S3config = require('../aws/s3config.js');
 const AWS = require('aws-sdk');
+const publicSettings = require('../public-settings.js')
 
 
 const prepare = (o) => {
@@ -209,7 +210,7 @@ const start = async (app, settings) => {
                     if (!exists) {
                         throw new Error('Video to update does not exist')
                     }
-                    const replaced = (await Videos.replaceOne({ _id: ObjectId(_id) }, video ))
+                    const replaced = (await Videos.replaceOne({ _id: ObjectId(_id) }, video))
                     if (replaced.modifiedCount == 1) {
                         video._id = _id;
                         return prepare(video)
@@ -257,6 +258,7 @@ const start = async (app, settings) => {
             resave: false,
             saveUninitialized: true,
         }))
+        
         await ooth(app, settings)
 
         app.use('/graphql', bodyParser.json(), graphqlExpress((req, res) => {

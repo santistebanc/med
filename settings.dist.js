@@ -1,5 +1,4 @@
 module.exports = {
-    url: 'http://localhost',
     port: 3000,
     originUrl: 'http://localhost:3000',
     mongoUrl: 'la base de datos de mongo',
