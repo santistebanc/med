@@ -13,7 +13,7 @@ export default compose(
   <div className="root">
     <button id="gallery" onClick={() => { Router.push('/gallery') }}>Galería</button>
     <button id="myvideos" onClick={() => { Router.push('/dashboard') }}>Mis Videos</button>
-    <button id="account" onClick={() => { Router.push('/account') }}>Cuenta</button>
+    {user && <button id="account" onClick={() => { Router.push('/account') }}>Cuenta</button>}
     {user && <button id="admin" onClick={() => { Router.push('/admin') }}>Admin</button>}
 
     <style jsx>{styles}</style>

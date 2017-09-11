@@ -12,12 +12,16 @@ export default compose(
   class Logout extends Component {
     componentDidMount() {
       if (this.props.user) {
+        console.log("1")
         this.props.oothClient.logout();
+        console.log("2")
       }
     }
     componentDidUpdate() {
       if (!this.props.user) {
-        this.props.Router.replace(this.props.next)
+        console.log("3")
+        this.props.Router.replace(this.props.next || '/gallery')
+        console.log("4")
       }
     }
     render() {
