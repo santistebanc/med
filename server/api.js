@@ -13,8 +13,6 @@ const fetchVideos = require('../aws/fetchVideos.js')
 const processVideos = require('../aws/processVideos.js')
 const S3config = require('../aws/s3config.js');
 const AWS = require('aws-sdk');
-const publicSettings = require('../public-settings.js')
-
 
 const prepare = (o) => {
     if (o && o._id) {
