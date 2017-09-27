@@ -1,0 +1,50 @@
+@import 'constants';
+.root {
+    display: flex;
+    width: 100%; // flex-direction: row-reverse;
+}
+
+button {
+    font-size: 1em;
+    font-weight: 300;
+    font-family: inherit;
+}
+
+// #home {
+//     flex: 1;
+//     background-color: $red;
+//      :hover {
+//         background-color: lighten($red, 10%);
+//     }
+// }
+#gallery {
+    flex: 1;
+    background-color: $blue;
+     :hover {
+        background-color: lighten($blue, 10%);
+    }
+}
+
+#myvideos {
+    flex: 1;
+    background-color: $pink;
+     :hover {
+        background-color: lighten($pink, 10%);
+    }
+}
+
+#account {
+    flex: 1;
+    background-color: $green;
+     :hover {
+        background-color: lighten($green, 10%);
+    }
+}
+
+#admin {
+    flex: 1;
+    background-color: $yellow;
+     :hover {
+        background-color: lighten($yellow, 10%);
+    }
+}

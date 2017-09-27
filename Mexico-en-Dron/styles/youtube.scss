@@ -1,0 +1,11 @@
+iframe.landing {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /* The following will size the video to fit the full container. Not necessary, just nice.*/
+    min-width: 1000px;
+    width: 100%;
+    min-height: 200%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}

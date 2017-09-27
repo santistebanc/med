@@ -1,0 +1,106 @@
+@import 'constants';
+//estos son estilos globales
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+@import './react-tabs.scss';
+
+body {
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    background-color: #f2f2f2;
+}
+
+*:focus {
+    outline-width: 0;
+}
+
+.container {
+    width: 100%;
+}
+
+button,
+input[type="submit"] {
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    background-color: gray;
+    font-family: 'Roboto', sans-serif;
+}
+
+select {
+    border: 2px solid #ddd;
+    box-sizing: border-box;
+    padding: 6px;
+    font-family: 'Roboto', sans-serif;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    padding: 4px 8px;
+    width: 150px;
+    font-family: 'Roboto', sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+    table-layout: auto;
+    width: 100%;
+}
+
+table td {
+    word-wrap: break-word;
+}
+
+th,
+td {
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+    min-width: 100%;
+}
+
+td:last-child {
+    width: 100%;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+.griddle-settings {
+    padding: 8px;
+    border: 1px solid #aaa;
+    margin-bottom: 8px;
+}
+
+.griddle-settings-toggle {
+    margin-bottom: 8px;
+}
+
+.bg.red {
+    background-color: $red;
+}
+
+.bg.blue {
+    background-color: $blue;
+}
+
+.bg.green {
+    background-color: $green;
+}
+
+.bg.yellow {
+    background-color: $yellow;
+}
+
+.bg.pink {
+    background-color: $pink;
+}
+
+.bg.purple {
+    background-color: $purple;
+}
+
+@import 'input_range.scss';
